@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# bin/detect <build-dir>
 
-echo "Sysstat" && exit 0
+echo "heroku-buildpack-kibana-sysmetrics"
+exit 0
