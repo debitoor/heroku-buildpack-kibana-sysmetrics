@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+CLOUD_ID_CMP="Hello Yaml1!"
+ELASTIC_USER_CMP="Hello Yaml2!"
+ELASTIC_PASSWORD_CMP="Hello Yaml3!"
+
+VERSION="7.6.1"
+ARCHIVE_NAME=metricbeat-$VERSION-darwin-x86_64.tar.gz
+DIR_NAME=metricbeat-$VERSION-darwin-x86_64/
+
+tar xzvf $ARCHIVE_NAME
+cd $DIR_NAME
+rm -rf metricbeat.yml
+cp ../metricbeat.yml .
+
+echo ">>>>>>>>>> $ENV_DIR.$APP_ENV"
+
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml
+
+
+topic "Installing Metricbeat runner"
+#mkdir -p "$BUILD_DIR/.profile.d"
+#cp "$BUILDPACK_DIR/extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
+#chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
+
+exit 0
