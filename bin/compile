@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-buildDir=$1
-cacheDir=$2
-envDir=$3
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
 #
 #function error() {
 #  echo " !     $*" >&2
@@ -45,4 +45,4 @@ echo "lol"
 #cp "$BUILDPACK_DIR/extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
 #chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
 
-exit 0
+#exit 0
