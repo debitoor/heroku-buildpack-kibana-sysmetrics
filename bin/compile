@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-#BUILD_DIR=$1
-#CACHE_DIR=$2
-#ENV_DIR=$3
+buildDir=$1
+cacheDir=$2
+envDir=$3
 #
 #function error() {
 #  echo " !     $*" >&2
