@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-echo "heroku-buildpack-kibana-sysmetrics"
-exit 0
