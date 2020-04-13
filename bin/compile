@@ -41,6 +41,8 @@ cp ../metricbeat.yml .
 topic "ENV variables to Metricbeat .yml"
 sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml
 
+cp ../metricbeat-$VERSION-darwin-x86_64 $BUILD_DIR
+
 topic "Installing Metricbeat runner"
 mkdir -p "$BUILD_DIR/.profile.d"
 cp "../extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
