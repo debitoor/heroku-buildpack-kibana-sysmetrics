@@ -31,13 +31,13 @@ DIR_NAME=metricbeat-$VERSION-darwin-x86_64/
 
 topic "Downloading metricbeat"
 curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/$ARCHIVE_NAME
-sudo rpm -vi metricbeat-7.6.1-x86_64.rpm
+rpm -vi metricbeat-7.6.1-x86_64.rpm
 
 topic "Unpacking metricbeat"
 #tar xzvf $ARCHIVE_NAME
 #cd $DIR_NAME
-sudo rm -rf /etc/metricbeat/metricbeat.yml
-sudo cp ../metricbeat.yml /etc/metricbeat
+rm -rf /etc/metricbeat/metricbeat.yml
+cp ../metricbeat.yml /etc/metricbeat
 
 topic "ENV variables to Metricbeat .yml"
 sudo sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" /etc/metricbeat/metricbeat.yml
