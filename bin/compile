@@ -26,21 +26,22 @@ ELASTIC_USER_CMP="$(cat $ENV_DIR/ELASTIC_USER)"
 ELASTIC_PASSWORD_CMP="$(cat $ENV_DIR/ELASTIC_PASSWORD)"
 
 VERSION="7.6.1"
-ARCHIVE_NAME=metricbeat-$VERSION-x86_64.rpm
-DIR_NAME=metricbeat-$VERSION-darwin-x86_64/
+ARCHIVE_NAME=metricbeat-$VERSION-linux-x86_64.tar.gz
+DIR_NAME=metricbeat-$VERSION-darwin-x86_64
 
 topic "Downloading metricbeat"
 curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/$ARCHIVE_NAME
-rpm -vi metricbeat-7.6.1-x86_64.rpm
 
 topic "Unpacking metricbeat"
-#tar xzvf $ARCHIVE_NAME
-#cd $DIR_NAME
-rm -rf /etc/metricbeat/metricbeat.yml
-cp ./metricbeat.yml /etc/metricbeat
+tar xzvf $ARCHIVE_NAME
+cd $DIR_NAME
+rm -rf metricbeat.yml
+cp ../metricbeat.yml .
 
 topic "ENV variables to Metricbeat .yml"
-sudo sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" /etc/metricbeat/metricbeat.yml
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml
+
+cp -r ../metricbeat-$VERSION-darwin-x86_64 $BUILD_DIR
 
 topic "Installing Metricbeat runner"
 mkdir -p "$BUILD_DIR/.profile.d"
