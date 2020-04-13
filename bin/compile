@@ -37,7 +37,7 @@ topic "Unpacking metricbeat"
 #tar xzvf $ARCHIVE_NAME
 #cd $DIR_NAME
 rm -rf /etc/metricbeat/metricbeat.yml
-cp ../metricbeat.yml /etc/metricbeat
+cp ./metricbeat.yml /etc/metricbeat
 
 topic "ENV variables to Metricbeat .yml"
 sudo sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" /etc/metricbeat/metricbeat.yml
