@@ -21,9 +21,9 @@ function indent() {
   esac
 }
 
-CLOUD_ID_CMP="afdsf"
-ELASTIC_USER_CMP="adsf"
-ELASTIC_PASSWORD_CMP="adfas"
+CLOUD_ID_CMP="$(cat $ENV_DIR/ELASTIC_CLOUD_ID)"
+ELASTIC_USER_CMP="$(cat $ENV_DIR/ELASTIC_USER)"
+ELASTIC_PASSWORD_CMP="$(cat $ENV_DIR/ELASTIC_PASSWORD)"
 
 VERSION="7.6.1"
 ARCHIVE_NAME=metricbeat-$VERSION-linux-x86_64.tar.gz
@@ -39,8 +39,7 @@ rm -rf metricbeat.yml
 cp ../metricbeat.yml .
 
 topic "ENV variables to Metricbeat .yml"
-
-sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml | tee metricbeat.yml
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml
 
 cp -r ../$DIR_NAME $BUILD_DIR
 
