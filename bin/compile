@@ -35,12 +35,16 @@ curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/$ARCHIVE_NAME
 topic "Unpacking metricbeat"
 tar xzvf $ARCHIVE_NAME
 
-rm -rf $DIR_NAME/metricbeat.yml
-rm -rf $DIR_NAME/modules.d/system.yml
+rm -rf ./$DIR_NAME/metricbeat.yml
+rm -rf ./$DIR_NAME/modules.d/system.yml
 
-cp metricbeat.yml $DIR_NAME/metricbeat-tmpl.yml
-cp system.yml $DIR_NAME/modules.d/system.yml
-sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" $DIR_NAME/metricbeat-tmpl.yml > $DIR_NAME/metricbeat.yml
+topic "copy metricbeat.yml"
+cp metricbeat.yml ./$DIR_NAME/metricbeat-tmpl.yml
+
+topic "copy system.yml"
+cp system.yml ./$DIR_NAME/modules.d/system.yml
+
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" ./$DIR_NAME/metricbeat-tmpl.yml > ./$DIR_NAME/metricbeat.yml
 
 if [[ $BUILD_DIR != "" ]]; then
   cp -r $DIR_NAME $BUILD_DIR
