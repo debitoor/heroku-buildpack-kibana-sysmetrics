@@ -36,11 +36,4 @@
 
 - module: system
   period: 1m
-  metricsets:
-    - process
-    - cpu
-    - memory
-    - process_summary
-    - network
-    - uptime
   processes: ['node.*']
