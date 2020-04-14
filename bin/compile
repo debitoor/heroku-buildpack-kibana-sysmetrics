@@ -36,14 +36,19 @@ topic "Unpacking metricbeat"
 tar xzvf $ARCHIVE_NAME
 
 rm -rf $DIR_NAME/metricbeat.yml
-cp metricbeat.yml ./$DIR_NAME/metricbeat-tmpl.yml
-sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" $DIR_NAME/metricbeat-tmpl.yml > ./$DIR_NAME/metricbeat.yml
+rm -rf $DIR_NAME/modules.d/system.yml
 
-cp -r ./$DIR_NAME $BUILD_DIR
+cp metricbeat.yml $DIR_NAME/metricbeat-tmpl.yml
+cp system.yml $DIR_NAME/modules.d/system.yml
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" $DIR_NAME/metricbeat-tmpl.yml > $DIR_NAME/metricbeat.yml
 
-topic "Installing Metricbeat runner"
-mkdir -p "$BUILD_DIR/.profile.d"
-cp "./extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
-chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
+if [[ $BUILD_DIR != "" ]]; then
+  cp -r $DIR_NAME $BUILD_DIR
+
+  topic "Installing Metricbeat runner"
+  mkdir -p "$BUILD_DIR/.profile.d"
+  cp "./extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
+  chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
+fi
 
 exit 0
