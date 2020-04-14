@@ -36,13 +36,13 @@ topic "Unpacking metricbeat"
 tar xzvf $ARCHIVE_NAME
 
 rm -rf ./$DIR_NAME/metricbeat.yml
-rm -rf ./$DIR_NAME/modules.d/system.yml
+#rm -rf ./$DIR_NAME/modules.d/system.yml # use for custom system.yml
 
 topic "copy metricbeat.yml"
 cp metricbeat.yml ./$DIR_NAME/metricbeat-tmpl.yml
 
-topic "copy system.yml"
-cp system.yml ./$DIR_NAME/modules.d/system.yml
+#topic "copy system.yml" # use for custom system.yml
+#cp system.yml ./$DIR_NAME/modules.d/system.yml # use for custom system.yml
 
 sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" ./$DIR_NAME/metricbeat-tmpl.yml > ./$DIR_NAME/metricbeat.yml
 
