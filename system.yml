@@ -11,7 +11,7 @@
     - process
     - process_summary
     - socket_summary
-    - services
+#    - services
     #- entropy
     #- core
     #- diskio
@@ -44,5 +44,3 @@
     - network
     - process
     - process_summary
-    - socket_summary
-    - services
