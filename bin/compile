@@ -21,31 +21,38 @@ function indent() {
   esac
 }
 
-CLOUD_ID_CMP="Hello Yaml1!"
-ELASTIC_USER_CMP="Hello Yaml2!"
-ELASTIC_PASSWORD_CMP="Hello Yaml3!"
+CLOUD_ID_CMP="$(cat $ENV_DIR/ELASTIC_CLOUD_ID)"
+ELASTIC_USER_CMP="$(cat $ENV_DIR/ELASTIC_USER)"
+ELASTIC_PASSWORD_CMP="$(cat $ENV_DIR/ELASTIC_PASSWORD)"
 
 VERSION="7.6.1"
-ARCHIVE_NAME=metricbeat-$VERSION-darwin-x86_64.tar.gz
-DIR_NAME=metricbeat-$VERSION-darwin-x86_64/
+ARCHIVE_NAME=metricbeat-$VERSION-linux-x86_64.tar.gz
+DIR_NAME=metricbeat-$VERSION-linux-x86_64
 
-topic "-----> Downloading metricbeat"
-curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-$VERSION-darwin-x86_64.tar.gz
+topic "Downloading metricbeat"
+curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/$ARCHIVE_NAME
 
-topic "-----> Unpacking metricbeat"
+topic "Unpacking metricbeat"
 tar xzvf $ARCHIVE_NAME
-cd $DIR_NAME
-rm -rf metricbeat.yml
-cp ../metricbeat.yml .
 
-echo "ENV DIR $ENV_DIR"
-echo "APP_ENV $ENV_DIR/APP_ENV"
+rm -rf ./$DIR_NAME/metricbeat.yml
+rm -rf ./$DIR_NAME/modules.d/system.yml # use for custom system.yml
 
-sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" metricbeat.yml
+topic "copy metricbeat.yml"
+cp metricbeat.yml ./$DIR_NAME/metricbeat-tmpl.yml
 
-topic "-----> Installing Metricbeat runner"
-#mkdir -p "$BUILD_DIR/.profile.d"
-#cp "$BUILDPACK_DIR/extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
-#chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
+topic "copy system.yml" # use for custom system.yml
+cp system.yml ./$DIR_NAME/modules.d/system.yml # use for custom system.yml
+
+sed -e "s/\${CLOUD_ID_CMP}/$CLOUD_ID_CMP/" -e "s/\${ELASTIC_USER_CMP}/$ELASTIC_USER_CMP/" -e "s/\${ELASTIC_PASSWORD_CMP}/$ELASTIC_PASSWORD_CMP/" ./$DIR_NAME/metricbeat-tmpl.yml > ./$DIR_NAME/metricbeat.yml
+
+if [[ $BUILD_DIR != "" ]]; then
+  cp -r $DIR_NAME $BUILD_DIR
+
+  topic "Installing Metricbeat runner"
+  mkdir -p "$BUILD_DIR/.profile.d"
+  cp "./extra/metricbeatRun.sh" "$BUILD_DIR/.profile.d/"
+  chmod +x "$BUILD_DIR/.profile.d/metricbeatRun.sh"
+fi
 
 exit 0
